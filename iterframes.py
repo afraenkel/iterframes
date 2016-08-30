@@ -32,7 +32,7 @@ class IterFrame(object):
         try:
             return self._make(*next(self._iter))
         except TypeError:
-            return self._make(*(self._iter,))
+            return self._make(next(self._iter))
 
     def __getitem__(self, cols):
         '''slice columns from an iterframe, returning a sliced iterframe'''
