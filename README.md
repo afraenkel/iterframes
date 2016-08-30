@@ -29,9 +29,9 @@ Point(x=7)
 
 ## TO DO:
 
-* index slicing via filters
 * groupby functionailty with an assumption of a sorted index
-* create double iterators of rows and columns (?)
+* apply functions ('evaluates' the iterator).
+* create double iterators of rows and columns (?!!)
 
 
 
