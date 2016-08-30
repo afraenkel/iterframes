@@ -23,10 +23,16 @@ class IterFrame(object):
 
     def __iter__(self):
         for line in self._iter:
-            yield self._make(*line)
+            try:
+                yield self._make(*line)
+            except TypeError:
+                yield self._make(*(line,))
 
     def __next__(self):
-        return self._make(*next(self._iter))
+        try:
+            return self._make(*next(self._iter))
+        except TypeError:
+            return self._make(*(self._iter,))
 
     def __getitem__(self, cols):
         '''slice columns from an iterframe, returning a sliced iterframe'''
@@ -48,6 +54,11 @@ class IterFrame(object):
         it = ([f(row) for _, f in funcs] for row in self)
         return IterFrame(it, [name for name, _ in funcs], self._name)
 
+    def filter(self, func):
+        '''apply a filter function to an iterframe, returning a filtered iterframe'''
+        it = (row for row in self if func(row))
+        return IterFrame(it, self._make._fields)
+    
     def rename(self, **coldict):
         '''rename the columns of an iterframe, returning a new iterframe'''
         newcols = [coldict[c] for c in self._make._fields]
