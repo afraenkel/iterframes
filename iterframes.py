@@ -56,8 +56,7 @@ class IterFrame(object):
 
     def filter(self, func):
         '''apply a filter function to an iterframe, returning a filtered iterframe'''
-        it = (row for row in self if func(row))
-        return IterFrame(it, self._make._fields)
+        return filter(func, self)
     
     def rename(self, **coldict):
         '''rename the columns of an iterframe, returning a new iterframe'''
